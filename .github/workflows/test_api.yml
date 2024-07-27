@@ -1,8 +1,5 @@
-cat > .github/workflows/test_api.yml << EOL
 name: Test OpenAI API
-
 on: [push]
-
 jobs:
   test_api:
     runs-on: ubuntu-latest
@@ -22,6 +19,5 @@ jobs:
         pip install openai
     - name: Run API test
       env:
-        OPENAI_API_KEY: \${{ secrets.OPENAI_API_KEY }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: python test_api.py
-EOL
