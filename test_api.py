@@ -1,21 +1,22 @@
 import os
 import openai
 
-# Récupérer la clé API depuis les variables d'environnement
-openai.api_key = os.environ.get("OPENAI_API_KEY")
-
-if not openai.api_key:
-    raise ValueError("La clé API OpenAI n'a pas été trouvée dans les variables d'environnement.")
+# Configurer la clé API
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 try:
-    # Tester l'API avec une requête simple
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt="Dis bonjour en français",
-        max_tokens=10
+    # Faire une requête à l'API
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "Vous êtes un assistant utile."},
+            {"role": "user", "content": "Bonjour, comment allez-vous ?"}
+        ]
     )
     
-    print("Réponse de l'API :", response.choices[0].text.strip())
-    print("Test réussi!")
+    # Afficher la réponse
+    print("Réponse de l'API :")
+    print(response.choices[0].message['content'])
+    print("\nTest réussi!")
 except Exception as e:
-    print("Erreur lors du test de l'API :", str(e))
+    print(f"Erreur lors du test de l'API : {str(e)}")
